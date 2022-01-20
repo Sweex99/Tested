@@ -1,0 +1,25 @@
+version: 2.1
+orbs:
+  ruby: circleci/ruby@0.1.2
+# Define the jobs we want to run for this project
+jobs:
+  build:
+    docker:
+      - image: cimg/ruby:2.7.1
+    steps:
+      - checkout
+      - run: bundle update --bundler
+      - run: bundle install
+  test:
+    docker:
+      - image: cimg/ruby:2.7.1
+    steps:
+      - checkout
+      - run: ruby ./test.rb
+
+# Orchestrate our job run sequence
+workflows:
+  build_and_test:
+    jobs:
+      - build
+      - test
